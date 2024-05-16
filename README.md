@@ -1,17 +1,20 @@
-# Griptape Tool Template
-
-A Github template repository for creating Griptape tools.
+# Griptape Astra DB Vector Store Driver
 
 ## Usage
 
-This template repository defines the typical structure for a Griptape tool and is meant to be used as a starting point when developing new tools. To create a tool using this template, click the **"Use this template"** button at the top of the repository.
+`poetry install --with dev,test`
 
-### Steps for creating a new Griptape tool:
+Get Astra DB credentials and an OpenAI API key, export them as environment variables:
 
-1. Add your tool's logic to `tool.py`
-2. Add tests in the `tests/` directory
-3. Add examples in the `examples/` directory
-4. Update the contents of `manifest.yml` with the name and description of your tool along with your contact information
-5. Rewrite this `README.md` with information about your new tool
-6. Choose the appropriate license (and update the `LICENSE` file if necessary)
-7. Tell us about your new tool [in Discord](https://discord.gg/gnWRz88eym)!
+```
+OPENAI_API_KEY
+ASTRA_DB_APPLICATION_TOKEN
+ASTRA_DB_API_ENDPOINT
+# Optional: ASTRA_DB_KEYSPACE
+```
+
+Try `poetry run pytest tests/` and `poetry run python examples/example.py`.
+
+### Versions and status
+
+`0.1.0` (as of 2024-05-16): a very first prototype, not for production usage yet!
