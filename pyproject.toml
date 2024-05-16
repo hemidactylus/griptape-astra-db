@@ -1,12 +1,13 @@
 [tool.poetry]
-name = "griptape_reverse_string_tool"
+name = "griptape_astra_db_tools"
 version = "0.1.0"
-description = "A Griptape tool for reversing strings."
-authors = ["Author Name <contact@example.com>"]
+description = "A Griptape toolset for DataStax Astra DB."
+authors = ["Stefano Lottini <stefano.lottini@datastax.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
+astrapy = "^1.1.0"
 griptape = "^0.20.0"
 
 [tool.poetry.group.test]
@@ -21,6 +22,8 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
+mypy = "~1.9.0"
+ruff = "~0.2.1"
 
 [tool.black]
 line-length=120
@@ -29,6 +32,3 @@ skip_magic_trailing_comma = true
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-
-
