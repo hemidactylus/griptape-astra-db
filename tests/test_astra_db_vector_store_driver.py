@@ -1,7 +1,11 @@
 import os
 
+from astrapy import DataAPIClient
+
 from griptape_astra_db_tools import AstraDBVectorStoreDriver
 from griptape.drivers.embedding.openai_embedding_driver import OpenAiEmbeddingDriver  # type: ignore
+
+TEST_COLLECTION_NAME = "griptape_test_collection"
 
 
 class TestAstraDBVectorStoreDriver:
@@ -14,7 +18,7 @@ class TestAstraDBVectorStoreDriver:
             embedding_driver=embedding_driver,
             api_endpoint=os.environ["ASTRA_DB_API_ENDPOINT"],
             token=os.environ["ASTRA_DB_APPLICATION_TOKEN"],
-            collection_name="griptape_test_collection",
+            collection_name=TEST_COLLECTION_NAME,
             astra_db_namespace=os.environ.get("ASTRA_DB_KEYSPACE"),
             dimension=1536,
         )
@@ -56,3 +60,8 @@ class TestAstraDBVectorStoreDriver:
 
         ann_post_delete2 = driver.query(sq, count=2, namespace="ns", include_vectors=True)
         assert len(ann_post_delete2) == 0
+
+        # cleanup (bypass Griptape and use astrapy for a hard reset)
+        DataAPIClient(token=os.environ["ASTRA_DB_APPLICATION_TOKEN"]).get_database(
+            os.environ["ASTRA_DB_API_ENDPOINT"], namespace=os.environ.get("ASTRA_DB_KEYSPACE")
+        ).drop_collection(TEST_COLLECTION_NAME)
