@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      # this to avoid the same collection getting concurrent stuff
+      # (todo: use the py version in the collection name)
+      max-parallel: 1
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
