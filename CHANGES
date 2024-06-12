@@ -1,0 +1,9 @@
+v. 0.1.1
+========
+Set up CI workflow with unit+integration tests
+Relax Python version to <4.0
+Upgrade griptape version req to >=0.26
+
+v. 0.1.0
+========
+Initial release
