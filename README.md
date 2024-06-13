@@ -15,6 +15,6 @@ ASTRA_DB_API_ENDPOINT
 
 Try `poetry run pytest tests/` and `poetry run python examples/example.py`.
 
-### Versions and status
+### Version history
 
-`0.1.0` (as of 2024-05-16): a very first prototype, not for production usage yet!
+See [CHANGES](CHANGES) file.
