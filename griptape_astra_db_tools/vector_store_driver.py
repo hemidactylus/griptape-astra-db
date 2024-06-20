@@ -1,10 +1,20 @@
 from __future__ import annotations
 
 import logging
-from typing import Dict, Optional
+import warnings
+
+from typing import Any, Dict, Optional
 from attr import define, field, Factory
 from griptape.drivers import BaseVectorStoreDriver  # type: ignore
 from astrapy import DataAPIClient, Collection
+
+GRIPTAPE_VERSION: Optional[str]
+try:
+    from importlib import metadata
+
+    GRIPTAPE_VERSION = metadata.version("griptape")
+except Exception:
+    GRIPTAPE_VERSION = None
 
 logging.basicConfig(level=logging.WARNING)
 
@@ -25,7 +35,7 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
 
     collection: Collection = field(
         default=Factory(
-            lambda self: DataAPIClient(token=self.token)
+            lambda self: DataAPIClient(token=self.token, caller_name="griptape", caller_version=GRIPTAPE_VERSION)
             .get_database_by_api_endpoint(api_endpoint=self.api_endpoint, namespace=self.astra_db_namespace)
             .create_collection(name=self.collection_name, dimension=self.dimension, check_exists=False),
             takes_self=True,
@@ -79,13 +89,26 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
         ]
 
     def query(
-        self, query: str, count: Optional[int] = None, namespace: Optional[str] = None, include_vectors: bool = False
+        self,
+        query: str,
+        count: Optional[int] = None,
+        namespace: Optional[str] = None,
+        include_vectors: bool = False,
+        filter: Optional[Dict[str, Any]] = None,
+        **kwargs: Any,
     ) -> list[BaseVectorStoreDriver.QueryResult]:
-        find_filter: Dict[str, str]
+        if kwargs:
+            warnings.warn(
+                "Unhandled keyword argument(s) provided to AstraDBVectorStore.query: "
+                f"'{','.join(sorted(kwargs.keys()))}'. These will be ignored.",
+                stacklevel=2,
+            )
+        find_filter_ns: Dict[str, Any]
         if namespace is None:
-            find_filter = {}
+            find_filter_ns = {}
         else:
-            find_filter = {"namespace": namespace}
+            find_filter_ns = {"namespace": namespace}
+        find_filter = {**(filter or {}), **find_filter_ns}
         find_projection: Optional[Dict[str, int]]
         if include_vectors:
             find_projection = {"*": 1}

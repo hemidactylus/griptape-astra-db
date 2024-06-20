@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "griptape_astra_db_tools"
-version = "0.1.1"
+version = "0.1.2"
 description = "A Griptape toolset for DataStax Astra DB."
 authors = ["Stefano Lottini <stefano.lottini@datastax.com>"]
 readme = "README.md"

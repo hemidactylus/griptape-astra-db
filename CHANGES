@@ -1,3 +1,9 @@
+v 0.1.2
+=======
+Added `filter` parameter to the vector store query method
+Management of kwargs in the vector store query method
+caller identity/version in the Astra DB client
+
 v. 0.1.1
 ========
 Set up CI workflow with unit+integration tests
