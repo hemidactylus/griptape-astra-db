@@ -1,3 +1,7 @@
+v 0.1.3
+=======
+Add indexing options optimized for vector store usage (i.e. can store long texts)
+
 v 0.1.2
 =======
 Added `filter` parameter to the vector store query method

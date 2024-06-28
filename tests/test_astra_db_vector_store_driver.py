@@ -61,6 +61,14 @@ class TestAstraDBVectorStoreDriver:
         ann_post_delete2 = driver.query(sq, count=2, namespace="ns", include_vectors=True)
         assert len(ann_post_delete2) == 0
 
+        # very-long-text-artifact test: check they can be written all right
+        driver.upsert_vector(
+            vector=v2,
+            vector_id="lng0",
+            namespace="ns",
+            meta={"artifact": "This " * 1800},
+        )
+
         # cleanup (bypass Griptape and use astrapy for a hard reset)
         DataAPIClient(token=os.environ["ASTRA_DB_APPLICATION_TOKEN"]).get_database(
             os.environ["ASTRA_DB_API_ENDPOINT"], namespace=os.environ.get("ASTRA_DB_KEYSPACE")

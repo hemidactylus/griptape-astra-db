@@ -19,6 +19,9 @@ except Exception:
 logging.basicConfig(level=logging.WARNING)
 
 
+COLLECTION_INDEXING = {"deny": ["meta.artifact"]}
+
+
 @define
 class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
     """
@@ -37,7 +40,7 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
         default=Factory(
             lambda self: DataAPIClient(token=self.token, caller_name="griptape", caller_version=GRIPTAPE_VERSION)
             .get_database_by_api_endpoint(api_endpoint=self.api_endpoint, namespace=self.astra_db_namespace)
-            .create_collection(name=self.collection_name, dimension=self.dimension, check_exists=False),
+            .create_collection(name=self.collection_name, dimension=self.dimension, indexing=COLLECTION_INDEXING, check_exists=False),
             takes_self=True,
         )
     )
