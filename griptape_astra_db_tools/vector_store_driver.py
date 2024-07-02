@@ -99,7 +99,7 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
         include_vectors: bool = False,
         filter: Optional[Dict[str, Any]] = None,
         **kwargs: Any,
-    ) -> list[BaseVectorStoreDriver.QueryResult]:
+    ) -> list[BaseVectorStoreDriver.Entry]:
         if kwargs:
             warnings.warn(
                 "Unhandled keyword argument(s) provided to AstraDBVectorStore.query: "
@@ -121,8 +121,10 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
         matches = self.collection.find(
             filter=find_filter, vector=vector, limit=count, projection=find_projection, include_similarity=True
         )
+        matches=list(matches)
+        print('matches', matches)
         return [
-            BaseVectorStoreDriver.QueryResult(
+            BaseVectorStoreDriver.Entry(
                 id=match["_id"],
                 vector=match.get("$vector"),
                 score=match["$similarity"],
