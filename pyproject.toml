@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.9"
 astrapy = "^1.3.0"
-griptape = "^0.26"
+griptape = "^0.28"
 
 [tool.poetry.group.test]
 optional = true
