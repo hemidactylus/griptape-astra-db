@@ -5,7 +5,7 @@ from astrapy import DataAPIClient
 from griptape_astra_db_tools import AstraDBVectorStoreDriver
 from griptape.drivers.embedding.openai_embedding_driver import OpenAiEmbeddingDriver  # type: ignore
 
-TEST_COLLECTION_NAME = "griptape_test_collection"
+TEST_COLLECTION_NAME = "gt_integration_test1"
 
 
 class TestAstraDBVectorStoreDriver:
@@ -62,12 +62,7 @@ class TestAstraDBVectorStoreDriver:
         assert len(ann_post_delete2) == 0
 
         # very-long-text-artifact test: check they can be written all right
-        driver.upsert_vector(
-            vector=v2,
-            vector_id="lng0",
-            namespace="ns",
-            meta={"artifact": "This " * 1800},
-        )
+        driver.upsert_vector(vector=v2, vector_id="lng0", namespace="ns", meta={"artifact": "This " * 1800})
 
         # cleanup (bypass Griptape and use astrapy for a hard reset)
         DataAPIClient(token=os.environ["ASTRA_DB_APPLICATION_TOKEN"]).get_database(

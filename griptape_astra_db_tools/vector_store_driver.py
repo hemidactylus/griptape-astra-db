@@ -40,7 +40,9 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
         default=Factory(
             lambda self: DataAPIClient(token=self.token, caller_name="griptape", caller_version=GRIPTAPE_VERSION)
             .get_database_by_api_endpoint(api_endpoint=self.api_endpoint, namespace=self.astra_db_namespace)
-            .create_collection(name=self.collection_name, dimension=self.dimension, indexing=COLLECTION_INDEXING, check_exists=False),
+            .create_collection(
+                name=self.collection_name, dimension=self.dimension, indexing=COLLECTION_INDEXING, check_exists=False
+            ),
             takes_self=True,
         )
     )
@@ -99,7 +101,7 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
         include_vectors: bool = False,
         filter: Optional[Dict[str, Any]] = None,
         **kwargs: Any,
-    ) -> list[BaseVectorStoreDriver.QueryResult]:
+    ) -> list[BaseVectorStoreDriver.Entry]:
         if kwargs:
             warnings.warn(
                 "Unhandled keyword argument(s) provided to AstraDBVectorStore.query: "
@@ -119,10 +121,14 @@ class AstraDBVectorStoreDriver(BaseVectorStoreDriver):
             find_projection = None
         vector = self.embedding_driver.embed_string(query)
         matches = self.collection.find(
-            filter=find_filter, vector=vector, limit=count, projection=find_projection, include_similarity=True
+            filter=find_filter,
+            sort={"$vector": vector},
+            limit=count,
+            projection=find_projection,
+            include_similarity=True,
         )
         return [
-            BaseVectorStoreDriver.QueryResult(
+            BaseVectorStoreDriver.Entry(
                 id=match["_id"],
                 vector=match.get("$vector"),
                 score=match["$similarity"],

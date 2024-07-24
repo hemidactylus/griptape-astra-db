@@ -1,3 +1,8 @@
+v 0.1.4
+=======
+Adapt to griptape 0.28's breaking changes (syntax, class names, etc)
+Stop using the now-deprecated `vector` keyord in astrapy find methods
+
 v 0.1.3
 =======
 Add indexing options optimized for vector store usage (i.e. can store long texts)
