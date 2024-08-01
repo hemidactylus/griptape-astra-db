@@ -1,3 +1,15 @@
+**WARNING: this project has been retired: the Astra DB driver is now in the main Griptape project.**
+
+GO THERE: https://docs.griptape.ai/latest/griptape-framework/drivers/vector-store-drivers/#astra-db
+
+
+
+I repeat: do not use this connector anymore! What follows is kept for archival purposes only.
+
+
+
+
+
 v 0.1.4
 =======
 Adapt to griptape 0.28's breaking changes (syntax, class names, etc)

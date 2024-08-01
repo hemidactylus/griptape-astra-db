@@ -1,5 +1,9 @@
 # Griptape Astra DB Vector Store Driver
 
+**WARNING: this project has been retired: the Astra DB driver is now in the main Griptape project. [GO THERE](https://docs.griptape.ai/latest/griptape-framework/drivers/vector-store-drivers/#astra-db)**
+
+_I repeat: do not use this connector anymore! What follows is kept for archival purposes only._
+
 ## Usage
 
 `poetry install --with dev,test`
